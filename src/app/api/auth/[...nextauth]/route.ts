@@ -1,8 +1,9 @@
 import NextAuth from "next-auth/next";
 import GitHubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
-import CredentialsProvider from "next-auth/providers/credentials";
-import { json } from "stream/consumers";
+import CredentialsProvider from "next-auth/providers/credentials"; 
+
+process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0'; // to be removed once published
 
 const handler =  NextAuth ({
   secret: process.env.NEXT_AUTH_SECRET,
@@ -13,12 +14,11 @@ const handler =  NextAuth ({
         username: { label: "Username", type: "text" },
         password: { label: "Password", type: "password" }
       },
-      async authorize(credentials, req) {
+      async authorize(credentials) {
         const credentialDetails = {
           username: credentials?.username,
           password: credentials?.password,
-        };
-        alert("pota")
+        }; 
         const res = await fetch("https://localhost:7090/User/login", {
           method: "POST",
           headers: {
@@ -28,13 +28,11 @@ const handler =  NextAuth ({
           body: JSON.stringify(credentialDetails),
         });
 
-        const user = await res.json();
-        if (user.is_success) {
-          console.log("nextauth daki user: " + user.is_success);
-
+        const user = await res.json(); 
+        if (user.success) {
+          // Any object returned will be saved in `user` property of the JWT
           return user;
-        } else {
-          console.log("check your credentials");
+        } else { 
           return null;
         }
       }
@@ -54,14 +52,7 @@ const handler =  NextAuth ({
         }
       }
     }),
-    
-  ], 
-  callbacks: {
-    jwt: async ({ token, user }) => {
-      alert("tplem")
-      return token;
-    },
-  }
+  ],
   // pages: {
   //   signIn: "/sign-in"
   // }
