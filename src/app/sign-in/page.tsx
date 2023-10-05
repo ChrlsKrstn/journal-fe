@@ -1,9 +1,32 @@
-'use client'
-import { FormEvent, ChangeEvent, useState } from "react";
+'use client' 
 import { signIn } from "next-auth/react";
 import FormInput from "@/components/form-input/form-input.component";
-  
-const SignIn = () => {   
+import { useState, ChangeEvent } from "react";
+
+const formData = {
+  username: "",
+  password: ""
+}
+
+const handleLogin = async (username: string, password: string) => { 
+  const res = await signIn('credentials', {
+    username: username,
+    password: password,  
+    redirect: false
+  });  
+  console.log(res?.status)
+  return res;
+}
+
+const SignIn = () => {
+  const [formFields, setFormFields] = useState(formData);
+  const {username, password} = formFields;
+
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    setFormFields({...formFields, [name]: value }); 
+  };    
+
   return (
     <div className="w-96 mx-auto max-w-7xl sm:py-60 lg:py-60">
       <div className="grid gap-y-5">
@@ -11,15 +34,19 @@ const SignIn = () => {
           label="Username"
           type="text"
           className="block w-full rounded-md"
-          name="username" 
+          name="username"  
+          onChange={handleChange}
+          value={username}
         />
         <FormInput
           label="Password"
           type="password"
           className="block w-full rounded-md"
           name="password" 
+          onChange={handleChange}
+          value={password}
         />
-        <button className="w-full rounded-md py-3 bg-gray-600 text-white hover:bg-gray-400" onClick={() => signIn("credentials")}>
+        <button className="w-full rounded-md py-3 bg-gray-600 text-white hover:bg-gray-400" onClick={() => handleLogin(username, password)}>
           Login
         </button>
       </div>

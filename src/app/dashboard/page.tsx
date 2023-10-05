@@ -1,11 +1,14 @@
 'use client'  
-import Nav from '@/components/nav/nav.component';
+import Nav from '@/components/nav/nav.component'; 
 
-const Dashboard = () => { 
+interface user {
+  name: string | null | undefined
+}
 
+const Dashboard = (params: user) => {   
   return(
     <>
-      <Nav/>
+      <Nav name={params.name}/> 
     </> 
   );
 };
