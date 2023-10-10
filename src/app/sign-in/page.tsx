@@ -2,25 +2,44 @@
 import { signIn } from "next-auth/react";
 import FormInput from "@/components/form-input/form-input.component";
 import { useState, ChangeEvent } from "react";
+import { useRouter } from "next/navigation";
 
 const formData = {
   username: "",
   password: ""
 }
 
-const handleLogin = async (username: string, password: string) => { 
+const login = async (username: string, password: string) => { 
   const res = await signIn('credentials', {
     username: username,
     password: password,  
     redirect: false
-  });  
-  console.log(res?.status)
+  });    
+
   return res;
 }
 
 const SignIn = () => {
   const [formFields, setFormFields] = useState(formData);
-  const {username, password} = formFields;
+  const [loading, setLoading] = useState(false);
+  const {username, password} = formFields; 
+  const router = useRouter();
+
+  const handleLogin = () => {
+    setLoading(true);
+
+    login(username, password).then((res) => { 
+      if (res?.error) {
+        const error = res?.error?.replaceAll('\\', '');
+        alert(error);
+        setLoading(false);
+        return; 
+      }   
+      
+      setLoading(false);
+      router.refresh();
+    });
+  }
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -46,8 +65,8 @@ const SignIn = () => {
           onChange={handleChange}
           value={password}
         />
-        <button className="w-full rounded-md py-3 bg-gray-600 text-white hover:bg-gray-400" onClick={() => handleLogin(username, password)}>
-          Login
+        <button className="w-full rounded-md py-3 bg-gray-600 text-white hover:bg-gray-400" onClick={() => handleLogin()}>
+          {loading ? 'Logging in...' : 'Login'}
         </button>
       </div>
       <div className="my-2 text-right">

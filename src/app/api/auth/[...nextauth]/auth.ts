@@ -31,12 +31,11 @@ export const config = {
           body: JSON.stringify(credentialDetails),
         });
 
-        const user = await res.json();  
-        console.log(user)
-        if (!user.sucess) {
+        const user = await res.json();     
+        if (user.success) { 
           return user;
-        } else {
-          return null;
+        } else { 
+          throw new Error(user.message)
         }
       }
     }),
