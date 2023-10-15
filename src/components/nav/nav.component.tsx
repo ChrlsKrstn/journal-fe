@@ -1,12 +1,20 @@
 'use client' 
+import { FC } from 'react'
 import { signOut } from 'next-auth/react'
 import { Menu } from "@headlessui/react" 
-
+import {cookies} from 'next/headers'
 interface user {
-  name: string | null | undefined
+  name: string | null | undefined,
+  logout: () => void
 }
 
-const Nav = (params: user) => {
+const Nav: FC<user> = (params) => {  
+
+  const handleLogout = () => { 
+    params.logout()
+    //signOut();
+  }
+
   return (
     <nav className="bg-white dark:bg-gray-900 fixed w-full z-20 top-0 left-0 border-b border-gray-200 dark:border-gray-600">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
@@ -18,7 +26,7 @@ const Nav = (params: user) => {
             <Menu.Items className="absolute right-0 w-56 mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
               <div className="px-4 py-1">
                 <Menu.Item>
-                  <a className="hover:cursor-pointer" onClick={() => signOut()}>Logout</a>
+                  <a className="hover:cursor-pointer" onClick={() => handleLogout()}>Logout</a>
                 </Menu.Item>
               </div> 
             </Menu.Items>

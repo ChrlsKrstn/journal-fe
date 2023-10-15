@@ -1,14 +1,22 @@
-'use client'  
 import Nav from '@/components/nav/nav.component'; 
-
+import Transaction from '@/components/transaction/transaction.component';
+import { signOut } from 'next-auth/react';
+import {cookies} from 'next/headers'
 interface user {
   name: string | null | undefined
-}
+} 
+const Dashboard = (params: user) => {
+  
+  console.log(cookies().get('jwt'))
+  
+  const handleLogout = async () => {
+    'use server'
+    cookies().delete('jwt')
+  }
 
-const Dashboard = (params: user) => {   
   return(
     <>
-      <Nav name={params.name}/> 
+      <Nav name={params.name} logout={handleLogout}/> 
       <div className='my-16'>
         <div className="flex">
           <div className="grid grid-cols-9 flex-grow">
@@ -24,6 +32,7 @@ const Dashboard = (params: user) => {
               </div>
               <div className="flex-grow p-8">
                 Deposit / Withdraw
+                <Transaction />
               </div>
             </div>
           </div>

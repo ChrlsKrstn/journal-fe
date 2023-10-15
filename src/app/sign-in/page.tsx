@@ -37,7 +37,7 @@ const SignIn = () => {
       }   
       
       setLoading(false);
-      router.refresh();
+      //router.refresh();
     });
   }
 

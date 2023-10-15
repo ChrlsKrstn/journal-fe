@@ -1,16 +1,22 @@
-
 import SignIn from './sign-in/page';
 import Dashboard from './dashboard/page';
 import { auth } from './api/auth/[...nextauth]/auth';
+import { cookies } from 'next/headers';
 
+const setCookie = async (data: string) => {
+  'use server'
+  cookies().set('jwt', data);
+}
+ 
 const Home = async () => { 
-  
-  const data = await auth();   
+  const data = await auth();
   if (!data && data === null) {
     return (
       <SignIn /> 
     )
   } else {
+    
+    //setCookie(data?.user?.token);
     return ( 
       <Dashboard name={data?.user?.name}/>
     )
@@ -18,18 +24,3 @@ const Home = async () => {
 }
 
 export default Home;
-// export default function Home() {
-// const { data: session, status  } = useSession();  
-
-//   if (status === "loading") {
-//     return <p>Loading...</p>
-//   }
-
-//   if (status === "unauthenticated") {
-//     return <SignIn />
-//   } 
-  
-//   return ( 
-//     <Dashboard />
-//   )
-// }
