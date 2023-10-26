@@ -2,17 +2,15 @@
 import { FC } from 'react'
 import { signOut } from 'next-auth/react'
 import { Menu } from "@headlessui/react" 
-import {cookies} from 'next/headers'
 interface user {
   name: string | null | undefined,
-  logout: () => void
+  destroyCookie: () => void
 }
 
 const Nav: FC<user> = (params) => {  
-
   const handleLogout = () => { 
-    params.logout()
-    //signOut();
+    params.destroyCookie()
+    signOut();
   }
 
   return (

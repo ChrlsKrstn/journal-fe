@@ -1,33 +1,51 @@
-import { auth } from "@/app/api/auth/[...nextauth]/auth";
-import FormInput from "../form-input/form-input.component";
-import { cookies } from "next/headers";
-const test = async () => { 
-  return test;
-}
+'use client'
+import { useState } from "react";
+import Modal from "../modal/modal.component";
 
-const Transaction = async () => { 
-  const cookieStore = cookies();
-  const test =  await auth(); 
+const Transaction = () => {  
+
+  const [open, setOpenModal] = useState(false); 
+
+  const close = () => {
+    setOpenModal(false);
+  }
+
   return (
     <>
-      <FormInput
-        label="Username"
-        type="text"
-        className="block w-full rounded-md"
-        name="username"  
-      />
-      <FormInput
-        label="Password"
-        type="password"
-        className="block w-full rounded-md"
-        name="password" 
-      />
-      <button className="w-full rounded-md py-3 bg-gray-600 text-white hover:bg-gray-400">
-        Transact
-      </button>
+      <h1 className="self-center text-2xl font-semibold">Transaction</h1>
+      <div className="relative overflow-x-auto my-5">
+        <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+            <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+              <tr>
+                <th className="px-6 py-3">
+                    Date
+                </th>
+                <th className="px-6 py-3">
+                    Transaction
+                </th>
+                <th className="px-6 py-3">
+                    Amount (USD)
+                </th>
+                <th className="px-6 py-3">
+                    Exchange Rate
+                </th>
+                <th className="px-6 py-3">
+                  Amount (PHP)
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+              </tr>
+            </tbody>
+        </table>
+        <button className="rounded-md my-3 py-2 px-4 border-2 border-stone-400" onClick={() => setOpenModal(true)}>
+          <span className="text-sm">Add+</span>
+        </button>
+        <Modal openModal={open} closeModal={close}/>
+      </div>
     </>
-  )
-
+  );
 }
 
 export default Transaction;

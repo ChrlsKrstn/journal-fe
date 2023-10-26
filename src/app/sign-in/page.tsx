@@ -4,7 +4,7 @@ import FormInput from "@/components/form-input/form-input.component";
 import { useState, ChangeEvent } from "react";
 import { useRouter } from "next/navigation";
 
-const formData = {
+const formData  = {
   username: "",
   password: ""
 }
@@ -13,7 +13,7 @@ const login = async (username: string, password: string) => {
   const res = await signIn('credentials', {
     username: username,
     password: password,  
-    redirect: false
+    redirect: false,
   });    
 
   return res;
@@ -34,12 +34,13 @@ const SignIn = () => {
         alert(error);
         setLoading(false);
         return; 
-      }   
-      
-      setLoading(false);
-      //router.refresh();
+      } 
+      setTimeout(() => { 
+        window.location.reload();
+        setLoading(false); 
+      }, 200);
     });
-  }
+  };
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;

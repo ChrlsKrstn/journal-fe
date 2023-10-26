@@ -4,7 +4,7 @@ import { getServerSession } from "next-auth"
 import GitHubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";  
-import { cookies } from 'next/headers'
+
 // You'll need to import and pass this
 // to `NextAuth` in `app/api/auth/[...nextauth]/route.ts`
 process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0'; // to be removed once published
@@ -60,7 +60,6 @@ export const config = {
       // update token from user 
       if (user) {
         token.name = user.name;
-        token.token = user.token
       }
       return token;
     },
