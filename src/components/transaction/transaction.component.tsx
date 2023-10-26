@@ -1,7 +1,8 @@
 'use client'
 import { useState } from "react";
+import { Dialog } from "@headlessui/react";
 import Modal from "../modal/modal.component";
-
+import FormInput from "../form-input/form-input.component";
 const Transaction = () => {  
 
   const [open, setOpenModal] = useState(false); 
@@ -42,7 +43,45 @@ const Transaction = () => {
         <button className="rounded-md my-3 py-2 px-4 border-2 border-stone-400" onClick={() => setOpenModal(true)}>
           <span className="text-sm">Add+</span>
         </button>
-        <Modal openModal={open} closeModal={close}/>
+        <Modal openModal={open} closeModal={close}>
+          <Dialog.Title as="h3" className="text-xl font-medium leading-6 text-gray-900">
+            Transaction
+          </Dialog.Title>
+          <FormInput
+            label="Date"
+            type="date"
+            className="block w-full rounded-md"
+            name="date"  
+            disabled
+          />
+          <FormInput
+            label="Transaction"
+            type="text"
+            className="block w-full rounded-md"
+            name="username"  
+          />
+          <FormInput
+            label="Amount (USD)"
+            type="text"
+            className="block w-full rounded-md"
+            name="username"  
+          />
+          <FormInput
+            label="Exchange Rate"
+            type="text"
+            className="block w-full rounded-md"
+            name="username"  
+          />
+          <FormInput
+            label="Amount (PHP)"
+            type="text"
+            className="block w-full rounded-md"
+            name="username"  
+          />
+          <button className="rounded-md my-3 py-2 px-4 border-2 border-stone-400">
+          <span className="text-sm">Save</span>
+        </button>
+        </Modal>
       </div>
     </>
   );
