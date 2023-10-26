@@ -2,7 +2,7 @@
 import { useState } from "react";
 import Modal from "../modal/modal.component";
 
-const Transaction = () => {  
+const TradingEntries = () => {  
 
   const [open, setOpenModal] = useState(false); 
 
@@ -12,25 +12,34 @@ const Transaction = () => {
 
   return (
     <>
-      <h1 className="self-center text-2xl font-semibold">Transaction</h1>
+      <h1 className="self-center text-2xl font-semibold">Entries</h1>
       <div className="relative overflow-x-auto my-5">
         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
             <thead className="text-xs text-gray-700 bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
               <tr>
                 <th className="px-6 py-3">
-                    Date
+                  Date
                 </th>
                 <th className="px-6 py-3">
-                    Transaction
+                  Currency Pair
                 </th>
                 <th className="px-6 py-3">
-                    Amount (USD)
+                  Buy / Sell
                 </th>
                 <th className="px-6 py-3">
-                    Exchange Rate
+                  Exchange Rate
                 </th>
                 <th className="px-6 py-3">
-                  Amount (PHP)
+                  Lot Size
+                </th>
+                <th className="px-6 py-3">
+                  Take Profit
+                </th>
+                <th className="px-6 py-3">
+                  Stop Loss
+                </th>
+                <th className="px-6 py-3"> 
+                  &nbsp;
                 </th>
               </tr>
             </thead>
@@ -48,4 +57,4 @@ const Transaction = () => {
   );
 }
 
-export default Transaction;
+export default TradingEntries;

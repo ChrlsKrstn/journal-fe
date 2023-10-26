@@ -1,36 +1,28 @@
 'use client'
-import { useState } from "react";
-import Modal from "../modal/modal.component";
 
-const Transaction = () => {  
-
-  const [open, setOpenModal] = useState(false); 
-
-  const close = () => {
-    setOpenModal(false);
-  }
+const TradingHistory = () => {  
 
   return (
     <>
-      <h1 className="self-center text-2xl font-semibold">Transaction</h1>
+      <h1 className="self-center text-2xl font-semibold">History</h1>
       <div className="relative overflow-x-auto my-5">
         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
             <thead className="text-xs text-gray-700 bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
               <tr>
                 <th className="px-6 py-3">
-                    Date
+                    Currency Pair
                 </th>
                 <th className="px-6 py-3">
-                    Transaction
+                    Total Trades
                 </th>
                 <th className="px-6 py-3">
-                    Amount (USD)
+                    Wins
                 </th>
                 <th className="px-6 py-3">
-                    Exchange Rate
+                    Loses
                 </th>
                 <th className="px-6 py-3">
-                  Amount (PHP)
+                  Win Rate (by Pair)
                 </th>
               </tr>
             </thead>
@@ -39,13 +31,9 @@ const Transaction = () => {
               </tr>
             </tbody>
         </table>
-        <button className="rounded-md my-3 py-2 px-4 border-2 border-stone-400" onClick={() => setOpenModal(true)}>
-          <span className="text-sm">Add+</span>
-        </button>
-        <Modal openModal={open} closeModal={close}/>
       </div>
     </>
   );
 }
 
-export default Transaction;
+export default TradingHistory;

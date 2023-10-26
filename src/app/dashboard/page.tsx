@@ -1,5 +1,7 @@
 import Nav from '@/components/nav/nav.component'; 
+import TradingHistory from '@/components/trading-history/trading-history.component';
 import Transaction from '@/components/transaction/transaction.component';
+import TradingEntries from '@/components/trading-entries/trading-entries.component';
 import {cookies} from 'next/headers'
 interface user {
   name: string | null | undefined
@@ -22,10 +24,10 @@ const Dashboard = (params: user) => {
             </div>
             <div className="flex flex-col col-span-5">
               <div className="flex-grow p-8">
-                History
+                <TradingHistory />
               </div>
               <div className="flex-grow p-8">
-                Entries
+                <TradingEntries />
               </div>
               <div className="flex-grow p-8">
                 <Transaction />
