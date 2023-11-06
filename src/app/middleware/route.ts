@@ -1,26 +1,28 @@
-import { cookies } from 'next/headers'
-import { auth } from '../api/auth/[...nextauth]/auth';
-import { NextResponse } from 'next/server';
-import { redirect } from 'next/navigation';
-export async function GET(request: Request) {
-  const cookieStore = cookies();    
-  const data = await auth(); 
+import { NextResponse } from "next/server";
+import { cookies } from "next/headers";
+export async function POST(request: Request) {
+  const reqBody = await request.json();
+  const cookieStore = cookies(); 
+  try { 
+    await fetch("https://localhost:7090/Transaction/" + reqBody.end_point, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: 'Bearer ' + cookieStore.get("jwt")?.value,
+      },
+      body: JSON.stringify(reqBody.formData),
+    })
+    .then(res => res.json());
 
-  await fetch("https://localhost:7090/User/setToken", {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data?.user),
-  })
-  .then(res => res.json())
-  .then((token) => {
-    if (token != undefined) {
-      cookieStore.set("jwt", token); 
-      return redirect("/");
-    }
-  }); 
+    return new NextResponse("Success", {
+      status: 200,
+    });
+  } catch {
 
-  return NextResponse.redirect("http://localhost:3000/");
+    return new NextResponse("Error", {
+      status: 401,
+    });
+
+  }  
 }

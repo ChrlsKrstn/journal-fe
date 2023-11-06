@@ -15,7 +15,7 @@ const Home = async () => {
       <SignIn/> 
     )
   } else {
-    redirect("/middleware")
+    redirect("/cookies")
   }
 }
 

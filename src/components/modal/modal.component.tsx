@@ -9,7 +9,6 @@ type ModalProp = {
 };
 
 const Modal: FC<ModalProp> = ({openModal, closeModal, children}) => { 
-  console.log(openModal)
 
   return (
     <Transition appear show={openModal} as={Fragment}>

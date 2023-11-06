@@ -4,10 +4,10 @@ import FormInput from "@/components/form-input/form-input.component";
 import { useState, ChangeEvent } from "react";
 import { useRouter } from "next/navigation";
 
-const formData  = {
+const formData = {
   username: "",
   password: ""
-}
+} 
 
 const login = async (username: string, password: string) => { 
   const res = await signIn('credentials', {
