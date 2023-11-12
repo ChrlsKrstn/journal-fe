@@ -1,5 +1,5 @@
 'use client'
-import { useState, ChangeEvent } from "react";
+import { useState, useEffect, ChangeEvent } from "react";
 import { Dialog } from "@headlessui/react";
 import Modal from "../modal/modal.component";
 import FormInput from "../form-input/form-input.component";
@@ -11,15 +11,34 @@ const formData = {
   amount_usd: 0,
   exchange_rate: 0,
   amount_php: 0
-}
+} 
 
 const Transaction = () => {  
 
   const [open, setOpenModal] = useState(false); 
+  const [isDone, setIsDone] = useState(true);
   const [formFields, setFormFields] = useState(formData); 
+  const [transactionList, setTransactionList] = useState([]);
   const {...formFieldData} = formFields; 
 
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await fetch("http://localhost:3000/middleware", {
+        method: "POST",
+        body: JSON.stringify({
+          end_point: "getUserTransaction",
+        })
+      });
+
+      const transaction = await data.json();
+      setTransactionList(transaction.data);
+    }
+
+    fetchData();
+    setIsDone(true);
+  } ,[isDone]);
+
+  const handleChange = (event: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = event.target;  
     setFormFields({...formFields, [name]: value });
   };    
@@ -33,8 +52,9 @@ const Transaction = () => {
         formData: formFieldData
       })
     });
-  } 
 
+    setIsDone(false);
+  }  
   return (
     <>
       <h1 className="self-center text-2xl font-semibold">Transaction</h1>
@@ -60,8 +80,17 @@ const Transaction = () => {
               </tr>
             </thead>
             <tbody>
-              <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-              </tr>
+              {
+                transactionList.map((data: any) => (
+                <tr key={data.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                  <td className="px-6 py-3">{data.created_Date}</td>
+                  <td className="px-6 py-3">{data.transaction_Type}</td>
+                  <td className="px-6 py-3 text-right">{data.amount_USD}</td>
+                  <td className="px-6 py-3 text-right">{data.exchange_Rate}</td>
+                  <td className="px-6 py-3 text-right">{data.amount_PHP}</td>
+                </tr>
+                ))
+              }
             </tbody>
         </table>
         <button className="rounded-md my-3 py-2 px-4 border-2 border-stone-400" onClick={() => setOpenModal(true)}>
@@ -79,14 +108,16 @@ const Transaction = () => {
             disabled
             value={getDate()}
           />
-          <FormInput
-            label="Transaction"
-            type="text"
-            className="block w-full rounded-md"
-            name="transaction"  
-            onChange={handleChange}
+          <label>Transaction</label>
+          <select 
+            className="block w-full rounded-md" 
+            name="transaction"
+            onChange={handleChange} 
             value={formFieldData.transaction}
-          />
+          >
+            <option value="Deposit">Deposit</option>
+            <option value="Withdraw">Withdraw</option>
+          </select>
           <FormInput
             label="Amount (USD)"
             type="text"

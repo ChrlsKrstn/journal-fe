@@ -56,10 +56,16 @@ export const config = {
     }),
   ],
   callbacks: {
-    async jwt({ user, token }) {
-      // update token from user 
-      if (user) {
-        token.name = user.name;
+    async jwt({ user, token, account }) {
+      // update token from user    
+      if (user) { 
+        if (account?.provider != "credentials") {
+          token.name = user.name; 
+          token.id = user.name;
+        } else { 
+          token.name = user.info.firstname + ' ' + user.info.lastname;
+          token.id = user.info.id;
+        }
       }
       return token;
     },

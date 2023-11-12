@@ -4,7 +4,7 @@ export async function POST(request: Request) {
   const reqBody = await request.json();
   const cookieStore = cookies(); 
   try { 
-    await fetch("https://localhost:7090/Transaction/" + reqBody.end_point, {
+    const res = await fetch("https://localhost:7090/Transaction/" + reqBody.end_point, {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -14,15 +14,12 @@ export async function POST(request: Request) {
       body: JSON.stringify(reqBody.formData),
     })
     .then(res => res.json());
-
-    return new NextResponse("Success", {
+    return new NextResponse(JSON.stringify(res), {
       status: 200,
     });
   } catch {
-
     return new NextResponse("Error", {
       status: 401,
     });
-
   }  
-}
+}; 

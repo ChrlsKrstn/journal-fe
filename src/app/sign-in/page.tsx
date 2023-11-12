@@ -22,8 +22,7 @@ const login = async (username: string, password: string) => {
 const SignIn = () => {
   const [formFields, setFormFields] = useState(formData);
   const [loading, setLoading] = useState(false);
-  const {username, password} = formFields; 
-  const router = useRouter();
+  const {username, password} = formFields;
 
   const handleLogin = () => {
     setLoading(true);
